@@ -1,22 +1,24 @@
-import React, {useState, useEffect}  from "react";
+import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
-// import API from "../utils/API"
-import { Head, Row, Column } from "../components/tableColumn"
-import axios from "axios"
+import API from "../utils/API"
+import Head from "../components/tableHead";
+import Row from "../components/tableRow";
+import Column from "../components/tableColumn";
+import TableData from "../components/tableData";
 
 function Home() {
 
   const [isLoading, setLoading] = useState(true);
-  const [employees, setEmployees] = useState([]);
+  const [employees, setEmployees] = useState();
 
   useEffect(() => {
-    axios.get("https://randomuser.me/api/?results=10")
-    .then(res => {
-      setEmployees(res.data.results);
-      setLoading(false)
-    })
+    API.getEmployees()
+      .then(res => {
+        setEmployees(res.data.results);
+        setLoading(false)
+      })
   }, []);
-  
+
   console.log("1", employees)
 
   if (isLoading) {
@@ -28,50 +30,31 @@ function Home() {
   //   .then(res => {
   //     const employees = res.data.results
   //     this.setState({ employees: [employees] })
-      
+
   //   }).catch(err => console.log(err))
   // }
 
-    return (
+  return (
     <div>
       <Table responsive striped bordered hover size="sm">
-        <Head>
-          <Row>
-            <Column></Column>
-          </Row>
-        </Head>
-
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>email</th>
-            <th>Phone</th>
-           
-          </tr>
-        </thead>
-        <tbody>
-              { console.log("2", employees)}
-
-              { employees.map(employee => 
-          
-          <tr>
- 
-            <td>{employee.id}</td>
-            <td>{employee.name.first}</td>
-            <td>{employee.name.last}</td>
-            <td>{employee.email}</td>
-            <td >{employee.phone}</td>
-            
-            
-            </tr>
-            )}
-        </tbody>
+        <Head></Head>
+        <Row></Row>
+        <Column></Column>
+        
+        {employees.map(employee => {
+          return (
+            <TableData
+              id={employee.id}
+              firstName={employee.first}
+              lastName={employee.last}
+              email={employee.email}
+              phone={employee.phone} />
+          )
+        })}
       </Table>
     </div>
 
   )
 };
 
-export default  Home;
+export default Home;
