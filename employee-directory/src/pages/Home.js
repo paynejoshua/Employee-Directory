@@ -1,63 +1,77 @@
-import React from "react";
-import Table  from "react-bootstrap/Table";
+import React, {useState, useEffect}  from "react";
+import Table from "react-bootstrap/Table";
+// import API from "../utils/API"
+import { Head, Row, Column } from "../components/tableColumn"
+import axios from "axios"
 
-// create use effect to run api call to get data from db
+function Home() {
 
-// once data is returned use useState to pass that information to this component
+  const [isLoading, setLoading] = useState(true);
+  const [employees, setEmployees] = useState([]);
 
-const Home = () => {
-  return (
-     <div>
-     <Table responsive striped bordered hover size="sm">
+  useEffect(() => {
+    axios.get("https://randomuser.me/api/?results=10")
+    .then(res => {
+      setEmployees(res.data.results);
+      setLoading(false)
+    })
+  }, []);
+  
+  console.log("1", employees)
+
+  if (isLoading) {
+    return <div> Loading...</div>
+  }
+
+  // componentDidMount() {
+  //   axios.get("https://randomuser.me/api/?results=10")
+  //   .then(res => {
+  //     const employees = res.data.results
+  //     this.setState({ employees: [employees] })
+      
+  //   }).catch(err => console.log(err))
+  // }
+
+    return (
+    <div>
+      <Table responsive striped bordered hover size="sm">
+        <Head>
+          <Row>
+            <Column></Column>
+          </Row>
+        </Head>
+
         <thead>
           <tr>
-            <th>#</th>
+            <th>id</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>email</th>
-            <th>Job Title</th>
-            <th>Manager</th>
-            <th>Date Hired</th>
+            <th>Phone</th>
+           
           </tr>
         </thead>
+        <tbody>
+              { console.log("2", employees)}
 
-        <thead>
+              { employees.map(employee => 
+          
           <tr>
-            <td>RowID</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>marko@thecompany.com</td>
-            <td>It Specialist</td>
-            <td>Tim Robbins</td>
-            <td>10/02/2015</td>
-          </tr>
-        </thead>
-        <thead>
-          <tr>
-            <td>2</td>
-            <td>John</td>
-            <td>Smith</td>
-            <td>johns@thecompany.com</td>
-            <td>It Specialist</td>
-            <td>Tim Robbins</td>
-            <td>10/02/2016</td>
-          </tr>
-        </thead>
-        <thead>
-          <tr>
-            <td>3</td>
-            <td>Mark</td>
-            <td>Robbins</td>
-            <td>markr@thecompany.com</td>
-            <td>It Manager</td>
-            <td>Bill Boykins</td>
-            <td>10/02/2012</td>
-          </tr>
-        </thead>
+ 
+            <td>{employee.id}</td>
+            <td>{employee.name.first}</td>
+            <td>{employee.name.last}</td>
+            <td>{employee.email}</td>
+            <td >{employee.phone}</td>
+            
+            
+            </tr>
+            )}
+        </tbody>
       </Table>
-      </div>
+    </div>
 
-  );
+  )
 };
 
-export default Home;
+export default  Home;
