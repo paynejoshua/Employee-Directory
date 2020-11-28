@@ -2,9 +2,10 @@ import React from "react"
 
 function tableData(props) {
     return(
-    <tbody>
-          {console.log("2", props)}
-              <tr>
+
+      <tbody>
+      {console.log("2", props)}
+              <tr {...props.key}>
                 <td>{props.id}</td>
                 <td>{props.firstName}</td>
                 <td>{props.lastName}</td>
@@ -14,6 +15,7 @@ function tableData(props) {
 
             
         </tbody>
+     
 )}
 
 export default tableData

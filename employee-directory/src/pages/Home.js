@@ -9,7 +9,7 @@ import TableData from "../components/tableData";
 function Home() {
 
   const [isLoading, setLoading] = useState(true);
-  const [employees, setEmployees] = useState();
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     API.getEmployees()
@@ -25,32 +25,25 @@ function Home() {
     return <div> Loading...</div>
   }
 
-  // componentDidMount() {
-  //   axios.get("https://randomuser.me/api/?results=10")
-  //   .then(res => {
-  //     const employees = res.data.results
-  //     this.setState({ employees: [employees] })
-
-  //   }).catch(err => console.log(err))
-  // }
-
   return (
     <div>
       <Table responsive striped bordered hover size="sm">
         <Head></Head>
         <Row></Row>
         <Column></Column>
-        
-        {employees.map(employee => {
-          return (
-            <TableData
-              id={employee.id}
-              firstName={employee.first}
-              lastName={employee.last}
-              email={employee.email}
-              phone={employee.phone} />
-          )
-        })}
+
+
+        {employees.map(employee => (
+          <TableData
+            key={employee.login.uuid}
+            id={employee.id.value}
+            firstName={employee.name.first}
+            lastName={employee.name.last}
+            email={employee.email}
+            phone={employee.phone}
+
+          />
+        ))}
       </Table>
     </div>
 
