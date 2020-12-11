@@ -4,7 +4,6 @@ function tableData(props) {
     return(
 
       <tbody>
-      {console.log("2", props)}
               <tr {...props.key}>
                 <td>{props.id}</td>
                 <td>{props.firstName}</td>
