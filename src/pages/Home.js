@@ -24,7 +24,6 @@ function Home() {
     return <div> Loading...</div>
   }
 
-
   const sortColumn = (property) => {
     let employeesCopy = [...employees]
     employeesCopy.sort(function (employee1, employee2) {
